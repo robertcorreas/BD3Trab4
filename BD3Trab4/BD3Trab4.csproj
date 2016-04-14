@@ -91,6 +91,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Dominio\InscriçõesDeCompetidores.cs" />
     <Compile Include="Events\FecharJanelaEvent.cs" />
     <Compile Include="Views\CadastroDeCompetidores.xaml.cs">
       <DependentUpon>CadastroDeCompetidores.xaml</DependentUpon>

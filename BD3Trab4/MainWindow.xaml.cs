@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using BD3Trab4.Dominio;
 using BD3Trab4.Events;
 using BD3Trab4.Views;
 using PubSub;
@@ -31,6 +32,16 @@ namespace BD3Trab4
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
             new CadastroDeCompetidores().ShowDialog();
+        }
+
+        private void FecharInscriçõesCompetidores_Click(object sender, RoutedEventArgs e)
+        {
+            InscriçõesDeCompetidores.Instance.InscriçõesFechadas = true;
+        }
+
+        private void ReabrirInscriçõesCompetidores_Click(object sender, RoutedEventArgs e)
+        {
+            InscriçõesDeCompetidores.Instance.InscriçõesFechadas = true;
         }
     }
 }
