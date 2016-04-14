@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using BD3Trab4.Events;
+using PubSub;
 
 namespace BD3Trab4.Views
 {
@@ -23,6 +25,11 @@ namespace BD3Trab4.Views
         {
             InitializeComponent();
             DataContext = new CriarSerieViewModel();
+            this.Subscribe<FecharJanelaEvent>(@event =>
+            {
+                this.Close();
+                this.Unsubscribe<FecharJanelaEvent>();
+            });
         }
     }
 }

@@ -5,8 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using BD3Trab4.DAOs;
+using BD3Trab4.Events;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Mvvm;
+using PubSub;
 
 namespace BD3Trab4.Views
 {
@@ -43,6 +45,7 @@ namespace BD3Trab4.Views
             if (dao.InserirSerie(Nome, DataHora))
             {
                 MessageBox.Show("Serie criada com sucesso");
+                this.Publish(new FecharJanelaEvent());
             }
             else
             {
