@@ -27,6 +27,8 @@ namespace BD3Trab4
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new MainViewModel();
+            btnCadastrarSeries.IsEnabled = false;
         }
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
@@ -37,11 +39,18 @@ namespace BD3Trab4
         private void FecharInscriçõesCompetidores_Click(object sender, RoutedEventArgs e)
         {
             InscriçõesDeCompetidores.Instance.InscriçõesFechadas = true;
+            btnCadastrarSeries.IsEnabled = true;
         }
 
         private void ReabrirInscriçõesCompetidores_Click(object sender, RoutedEventArgs e)
         {
-            InscriçõesDeCompetidores.Instance.InscriçõesFechadas = true;
+            InscriçõesDeCompetidores.Instance.InscriçõesFechadas = false;
+            btnCadastrarSeries.IsEnabled = false;
+        }
+
+        private void btnCadastrarSeries_Click(object sender, RoutedEventArgs e)
+        {
+            new CadastrarSeries().ShowDialog();
         }
     }
 }

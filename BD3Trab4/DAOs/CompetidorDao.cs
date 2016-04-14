@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Data.Odbc;
-using System.Windows.Input;
 using BD3Trab4.Dominio;
 
 namespace BD3Trab4.DAOs
@@ -18,19 +16,10 @@ namespace BD3Trab4.DAOs
                 command.Parameters.Add("@id_competidor", OdbcType.Int).Value = id;
                 var reader = command.ExecuteReader();
 
-
                 if (reader.Read())
                 {
-                    char sexo;
-                    DateTime dataNascimento;
-
-                    int.TryParse(reader["id_competidor"].ToString(), out id);
-                    char.TryParse(reader["sexo"].ToString(), out sexo);
-                    var nome = reader["nome"].ToString();
-                    var patrocinio = reader["patrocinio"].ToString();
-                    DateTime.TryParse(reader["data_nascimento"].ToString(), out dataNascimento);
-
-                    return new Competidor(id, nome, sexo, dataNascimento, patrocinio);
+                    var competidor = ConstruirCompetidor(reader);
+                    return competidor;
                 }
                 else
                 {
@@ -58,20 +47,10 @@ namespace BD3Trab4.DAOs
                 var reader = command.ExecuteReader();
 
                 var competidores = new List<Competidor>();
-
                 while (reader.Read())
                 {
-                    int id;
-                    char sexo;
-                    DateTime dataNascimento;
-
-                    int.TryParse(reader["id_competidor"].ToString(), out id);
-                    char.TryParse(reader["sexo"].ToString(), out sexo);
-                    var nome = reader["nome"].ToString();
-                    var patrocinio = reader["patrocinio"].ToString();
-                    DateTime.TryParse(reader["data_nascimento"].ToString(), out dataNascimento);
-
-                    competidores.Add(new Competidor(id, nome, sexo, dataNascimento, patrocinio));
+                    var competidor = ConstruirCompetidor(reader);
+                    competidores.Add(competidor);
                 }
                 return competidores;
             }
@@ -85,7 +64,8 @@ namespace BD3Trab4.DAOs
             }
         }
 
-        public bool InserirCompetidor(string nome, DateTime datanascimento, string sexo, string patrocinio, IEnumerable<Prova> provasEscolhidas)
+        public bool InserirCompetidor(string nome, DateTime datanascimento, string sexo, string patrocinio,
+            IEnumerable<Prova> provasEscolhidas)
         {
             try
             {
@@ -128,6 +108,52 @@ namespace BD3Trab4.DAOs
             {
                 CloseConnection();
             }
+        }
+
+        public IList<Competidor> GetCompetidoresByProva(int provaId)
+        {
+            try
+            {
+                OpenConection();
+                var command = CreateCommand(@"select * from competidor, prova_competidor
+                                                where prova_competidor.id_competidor = competidor.id_competidor 
+                                                and prova_competidor.id_prova = ?");
+
+                command.Parameters.Add("@id_prova", OdbcType.Int).Value = provaId;
+
+                var reader = command.ExecuteReader();
+                var competidores = new List<Competidor>();
+                while (reader.Read())
+                {
+                    var competidor = ConstruirCompetidor(reader);
+                    competidores.Add(competidor);
+                }
+
+                return competidores;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+            finally
+            {
+                CloseConnection();
+            }
+        }
+
+
+        private Competidor ConstruirCompetidor(OdbcDataReader reader)
+        {
+            int id;
+            int.TryParse(reader["id_competidor"].ToString(), out id);
+            char sexo;
+            char.TryParse(reader["sexo"].ToString(), out sexo);
+            var nome = reader["nome"].ToString();
+            var patrocinio = reader["patrocinio"].ToString();
+            DateTime dataNascimento;
+            DateTime.TryParse(reader["data_nascimento"].ToString(), out dataNascimento);
+
+            return new Competidor(id, nome, sexo, dataNascimento, patrocinio);
         }
     }
 }
