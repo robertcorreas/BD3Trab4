@@ -70,6 +70,8 @@ namespace BD3Trab4.DAOs
             try
             {
                 OpenConection();
+                BeginTransaction();
+
                 var command = CreateCommand(@"insert into competidor (nome,sexo,data_nascimento,patrocinio) 
                                              values (?,?,?,?)");
 
@@ -80,9 +82,8 @@ namespace BD3Trab4.DAOs
 
                 command.ExecuteNonQuery();
 
-
                 command = CreateCommand(@"select SEQ_COMPETIDOR_ID.currval from DUAL");
-
+                
                 var reader = command.ExecuteReader();
                 reader.Read();
 
@@ -98,10 +99,13 @@ namespace BD3Trab4.DAOs
 
                     command.Parameters.Clear();
                 }
+
+                Commit();
                 return true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Rollback();
                 return false;
             }
             finally

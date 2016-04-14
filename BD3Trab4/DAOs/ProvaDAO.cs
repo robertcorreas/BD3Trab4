@@ -88,6 +88,7 @@ namespace BD3Trab4.DAOs
             try
             {
                 OpenConection();
+                
                 var command = CreateCommand("select * from prova where sexo = ?");
                 command.Parameters.Add("@sexo", OdbcType.Char).Value = s;
                 var reader = command.ExecuteReader();
