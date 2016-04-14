@@ -95,7 +95,6 @@
     <Compile Include="Dominio\InscriçõesDeCompetidores.cs" />
     <Compile Include="Dominio\Serie.cs" />
     <Compile Include="Events\FecharJanelaEvent.cs" />
-    <Compile Include="MainViewModel.cs" />
     <Compile Include="Views\CadastrarSeries.xaml.cs">
       <DependentUpon>CadastrarSeries.xaml</DependentUpon>
     </Compile>
@@ -166,9 +165,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Helpers\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

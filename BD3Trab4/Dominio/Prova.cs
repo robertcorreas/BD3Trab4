@@ -15,9 +15,9 @@ namespace BD3Trab4.Dominio
         }
 
         public int Id { get; private set; }
-        public string Distancia { get; private set; }
-        public string Modalidade { get; private set; }
-        public char Sexo { get; private set; }
+        public string Distancia { get; }
+        public string Modalidade { get; }
+        public char Sexo { get; }
         public DateTime DataSemifinal { get; private set; }
         public DateTime DataFinal { get; private set; }
 

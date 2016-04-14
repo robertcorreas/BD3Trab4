@@ -15,9 +15,23 @@ namespace BD3Trab4.Views
         private Competidor _competidorSelecionado;
         private string _nomeCompetidor;
         private Prova _prova;
-        private int _raia;
         private Prova _provaSelecionada;
+        private int _raia;
         private Serie _serieCorrente;
+
+
+        public CadastrarSeriesViewModel()
+        {
+            var provaDao = new ProvaDao();
+            Provas = provaDao.GetProvas();
+
+
+            //Prova = SerieCorrente.Prova;
+
+
+            OnOk = new DelegateCommand(Ok, CanOk);
+            DataHora = DateTime.Now;
+        }
 
         public IList<Prova> Provas { get; private set; }
 
@@ -33,25 +47,14 @@ namespace BD3Trab4.Views
             }
         }
 
-
-        public CadastrarSeriesViewModel()
-        {
-            var provaDao = new ProvaDao();
-            Provas = provaDao.GetProvas();
-
-            
-            
-            //Prova = SerieCorrente.Prova;
-
-
-            OnOk = new DelegateCommand(Ok, CanOk);
-            DataHora = DateTime.Now;
-        }
-
         public Serie SerieCorrente
         {
             get { return _serieCorrente; }
-            private set { _serieCorrente = value; OnPropertyChanged(() => SerieCorrente);}
+            private set
+            {
+                _serieCorrente = value;
+                OnPropertyChanged(() => SerieCorrente);
+            }
         }
 
         public IList<Competidor> Competidores

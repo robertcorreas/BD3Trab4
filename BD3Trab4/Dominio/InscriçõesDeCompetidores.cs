@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BD3Trab4.Dominio
+﻿namespace BD3Trab4.Dominio
 {
-    public  class InscriçõesDeCompetidores
+    public class InscriçõesDeCompetidores
     {
+        private static InscriçõesDeCompetidores _instance;
+
+        private InscriçõesDeCompetidores()
+        {
+        }
+
         public bool InscriçõesFechadas { get; set; }
 
-        private static InscriçõesDeCompetidores _instance;
         public static InscriçõesDeCompetidores Instance
         {
             get
@@ -19,17 +18,9 @@ namespace BD3Trab4.Dominio
                 {
                     return _instance;
                 }
-                else
-                {
-                    _instance = new InscriçõesDeCompetidores();
-                    return _instance;
-                }
+                _instance = new InscriçõesDeCompetidores();
+                return _instance;
             }
-        }
-
-        private InscriçõesDeCompetidores()
-        {
-            
         }
     }
 }

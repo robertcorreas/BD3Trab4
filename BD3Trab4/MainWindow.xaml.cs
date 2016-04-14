@@ -27,7 +27,6 @@ namespace BD3Trab4
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new MainViewModel();
             btnCadastrarSeries.IsEnabled = false;
         }
 

@@ -37,7 +37,9 @@ namespace BD3Trab4.DAOs
             {
                 OpenConection();
 
-                var command = CreateCommand(@"select * from serie where (total_participantes < 8 or total_participantes is null) and 
+                var command =
+                    CreateCommand(
+                        @"select * from serie where (total_participantes < 8 or total_participantes is null) and 
                                              fk_id_prova = ? order by id_serie");
 
                 command.Parameters.Add("@fk_id_prova", OdbcType.Int).Value = provaId;
@@ -98,7 +100,7 @@ namespace BD3Trab4.DAOs
             }
         }
 
-        public Tuple<bool,string> CadastrarCompetidor(int idSerie, int idCompetidor, int raia)
+        public Tuple<bool, string> CadastrarCompetidor(int idSerie, int idCompetidor, int raia)
         {
             try
             {
@@ -108,7 +110,7 @@ namespace BD3Trab4.DAOs
                 command.Parameters.Add("@id_serie", OdbcType.Int).Value = idSerie;
                 command.Parameters.Add("@raia", OdbcType.Int).Value = raia;
 
-                var reader =command.ExecuteReader();
+                var reader = command.ExecuteReader();
 
                 if (reader.Read())
                 {
@@ -116,7 +118,7 @@ namespace BD3Trab4.DAOs
 
                     if (total > 0)
                     {
-                        return new Tuple<bool, string>(false,"Essa raia já está ocupada");
+                        return new Tuple<bool, string>(false, "Essa raia já está ocupada");
                     }
                 }
 
@@ -127,11 +129,11 @@ namespace BD3Trab4.DAOs
                 command.Parameters.Add("@raia", OdbcType.Int).Value = raia;
                 command.ExecuteNonQuery();
 
-                return new Tuple<bool, string>(true,"");
+                return new Tuple<bool, string>(true, "");
             }
             catch (Exception e)
             {
-                return new Tuple<bool, string>(false,e.Message);
+                return new Tuple<bool, string>(false, e.Message);
             }
             finally
             {

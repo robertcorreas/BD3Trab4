@@ -15,8 +15,8 @@ namespace BD3Trab4.Views
     {
         private string _nome;
         private string _patrocinio;
-        private string _sexo;
         private ObservableCollection<Prova> _provasDisponíveis;
+        private string _sexo;
 
 
         public CadastroDeCompetidoresViewModel()
@@ -70,7 +70,11 @@ namespace BD3Trab4.Views
         public ObservableCollection<Prova> ProvasDisponíveis
         {
             get { return _provasDisponíveis; }
-            private set { _provasDisponíveis = value; OnPropertyChanged(() => ProvasDisponíveis);}
+            private set
+            {
+                _provasDisponíveis = value;
+                OnPropertyChanged(() => ProvasDisponíveis);
+            }
         }
 
         public ObservableCollection<Prova> ProvasEscolhidas { get; }

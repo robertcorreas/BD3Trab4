@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Odbc;
-using System.Windows.Input;
 using BD3Trab4.Dominio;
 
 namespace BD3Trab4.DAOs
 {
     public class ProvaDao : Dao
     {
-
         public Prova GetProvaById(int id)
         {
             try
@@ -47,7 +45,6 @@ namespace BD3Trab4.DAOs
             }
         }
 
-        
 
         public List<Prova> GetProvas()
         {
