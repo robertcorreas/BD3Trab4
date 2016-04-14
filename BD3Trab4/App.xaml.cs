@@ -20,6 +20,9 @@ namespace BD3Trab4
            var dao = new ProvaDao();
 
             var provas = dao.GetProvas();
+            var competidores = new CompetidorDao().GetCompetidores();
+            var p = dao.GetProvaById(6);
+            var competidor = new CompetidorDao().GetCompetidorById(1);
 
             foreach (var prova in provas)
             {

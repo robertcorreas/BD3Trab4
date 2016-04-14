@@ -83,6 +83,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DAOs\CompetidorDao.cs" />
     <Compile Include="DAOs\Dao.cs" />
     <Compile Include="DAOs\ProvaDAO.cs" />
     <Compile Include="Dominio\Competidor.cs" />
