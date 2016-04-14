@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using BD3Trab4.DAOs;
 using BD3Trab4.Dominio;
@@ -21,11 +22,15 @@ namespace BD3Trab4.Views
 
         public CadastroDeCompetidoresViewModel()
         {
-            ProvasEscolhidas = new ObservableCollection<Prova>();
-
             OnOk = new DelegateCommand(Ok, CanOk);
             OnAdd = new DelegateCommand(Add);
             OnRemove = new DelegateCommand(Remove);
+
+            ProvasEscolhidas = new ObservableCollection<Prova>();
+            ProvasEscolhidas.CollectionChanged += (sender, args) => OnOk.RaiseCanExecuteChanged();
+
+            
+            DataNascimento = DateTime.Now;
         }
 
         public string Nome
@@ -96,7 +101,7 @@ namespace BD3Trab4.Views
 
         private bool CanOk()
         {
-            if (string.IsNullOrEmpty(Nome) || string.IsNullOrEmpty(Patrocinio) || string.IsNullOrWhiteSpace(Sexo))
+            if (string.IsNullOrEmpty(Nome) || string.IsNullOrEmpty(Patrocinio) || string.IsNullOrWhiteSpace(Sexo) || !ProvasEscolhidas.Any())
             {
                 return false;
             }

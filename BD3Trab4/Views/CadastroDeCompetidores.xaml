@@ -3,9 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:BD3Trab4.Views"
         mc:Ignorable="d"
-        Title="Cadastrar Competidor" Height="350" Width="400">
+        Title="Cadastrar Competidor" Height="500" Width="420">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -25,7 +24,7 @@
         <TextBox Grid.Column="1" Grid.Row="0" Margin="4" Text="{Binding Nome, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 
         <Label Grid.Column="0" Grid.Row="1" Margin="4">Sexo:</Label>
-        <ComboBox Grid.Column="1" Grid.Row="1" Margin="4" ItemsSource="{Binding Sexos, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Sexo}"/>
+        <ComboBox Grid.Column="1" Grid.Row="1" Margin="4 8" VerticalAlignment="Center" ItemsSource="{Binding Sexos, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Sexo}"/>
 
 
         <Label Grid.Column="0" Grid.Row="2" Margin="4">Data de Nascimento:</Label>
@@ -45,8 +44,8 @@
             </Grid.ColumnDefinitions>
              <ListBox Grid.Column="0" Margin="4" ItemsSource="{Binding ProvasDisponíveis}" SelectedItem="{Binding ProvaDisponivelSelecionada}"/>
              <StackPanel Orientation="Vertical" Grid.Column="1" VerticalAlignment="Center">
-                <Button Margin="4" Command="{Binding OnAdd}">Add</Button>
-                <Button Margin="4" Width="60" Command="{Binding OnRemove}">Remove</Button>
+                <Button Margin="4" Width="80" Command="{Binding OnAdd}">Adicionar</Button>
+                <Button Margin="4" Width="80" Command="{Binding OnRemove}">Remover</Button>
             </StackPanel>
             <ListBox Grid.Column="2" Margin="4" ItemsSource="{Binding ProvasEscolhidas}" SelectedItem="{Binding ProvaEscolhidaSelecionada}"></ListBox>
          </Grid>
