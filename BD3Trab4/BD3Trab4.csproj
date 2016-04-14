@@ -91,6 +91,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ConnectionString.cs" />
     <Compile Include="DAOs\SerieDao.cs" />
     <Compile Include="Dominio\InscriçõesDeCompetidores.cs" />
     <Compile Include="Dominio\Serie.cs" />
@@ -103,6 +104,10 @@
       <DependentUpon>CadastroDeCompetidores.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CadastroDeCompetidoresViewModel.cs" />
+    <Compile Include="Views\ConfigurarConnectionString.xaml.cs">
+      <DependentUpon>ConfigurarConnectionString.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ConfigurarConnectionStringViewModel.cs" />
     <Compile Include="Views\CriarSeries.xaml.cs">
       <DependentUpon>CriarSeries.xaml</DependentUpon>
     </Compile>
@@ -129,6 +134,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CadastroDeCompetidores.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ConfigurarConnectionString.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

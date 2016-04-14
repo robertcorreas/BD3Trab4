@@ -1,16 +1,35 @@
-﻿using System.Data.Odbc;
+﻿using System;
+using System.Data.Odbc;
 
 namespace BD3Trab4.DAOs
 {
     public abstract class Dao
     {
-        private readonly string _connectionString = $"Dsn={"ORACLE_DSN"};Uid={"robert"};Pwd={"senha1234"}";
         private OdbcConnection _connection;
+
+        private string ConnectionString => BD3Trab4.ConnectionString.Value;
 
         protected void OpenConection()
         {
-            _connection = new OdbcConnection(_connectionString);
+            _connection = new OdbcConnection(ConnectionString);
             _connection.Open();
+        }
+
+        public bool TestarConexão()
+        {
+            try
+            {
+                OpenConection();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            finally
+            {
+                CloseConnection();
+            }
         }
 
         protected void CloseConnection()

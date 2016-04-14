@@ -17,14 +17,8 @@ namespace BD3Trab4
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-           var dao = new ProvaDao();
+            ConnectionString.Value = $"Dsn={"ORACLE_DSN"};Uid={"robert"};Pwd={"senha1234"}";
 
-            var provas = dao.GetProvas();
-            var competidores = new CompetidorDao().GetCompetidores();
-            var p = dao.GetProvaById(6);
-            var competidor = new CompetidorDao().GetCompetidorById(1);
-
-            
         }
     }
 }

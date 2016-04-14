@@ -8,6 +8,7 @@
         Title="MainWindow" Height="350" Width="525">
     <Grid>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button Margin="4" Click="Button_Click" >Configurar Connection string</Button>
             <Button Margin="4" Click="ButtonBase_OnClick">Cadastrar Competidores</Button>
             <Button Margin="4" Click="FecharInscriçõesCompetidores_Click">Finalizar inscrições de competidores</Button>
             <Button Margin="4" Click="ReabrirInscriçõesCompetidores_Click">Reabrir inscrições de competidores</Button>

@@ -56,5 +56,10 @@ namespace BD3Trab4
         {
             new CriarSeries().ShowDialog();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            new ConfigurarConnectionString().ShowDialog();
+        }
     }
 }
