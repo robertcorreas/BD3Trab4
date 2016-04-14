@@ -30,17 +30,12 @@ namespace BD3Trab4.DAOs
                     DateTime.TryParse(reader["data_semifinal"].ToString(), out dataSemifinal);
                     DateTime.TryParse(reader["data_final"].ToString(), out dataFinal);
 
-                    CloseConnection();
-
                     return new Prova(id, distancia, modalidade, sexo, dataSemifinal, dataFinal);
                 }
                 else
                 {
-                    CloseConnection();
                     return null;
                 }
-
-                
             }
             catch (Exception)
             {
@@ -79,7 +74,6 @@ namespace BD3Trab4.DAOs
 
                     provas.Add(new Prova(id, distancia, modalidade, sexo, dataSemifinal, dataFinal));
                 }
-                CloseConnection();
                 return provas;
             }
             catch (Exception)

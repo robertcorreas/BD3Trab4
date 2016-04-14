@@ -20,5 +20,10 @@ namespace BD3Trab4.Dominio
         public char Sexo { get; private set; }
         public DateTime DataSemifinal { get; private set; }
         public DateTime DataFinal { get; private set; }
+
+        public override string ToString()
+        {
+            return $"{Distancia}m - {Modalidade} - {Sexo}";
+        }
     }
 }

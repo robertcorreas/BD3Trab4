@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data.Odbc;
 using System.Windows.Input;
 using BD3Trab4.Dominio;
@@ -29,13 +30,10 @@ namespace BD3Trab4.DAOs
                     var patrocinio = reader["patrocinio"].ToString();
                     DateTime.TryParse(reader["data_nascimento"].ToString(), out dataNascimento);
 
-                    CloseConnection();
-
                     return new Competidor(id, nome, sexo, dataNascimento, patrocinio);
                 }
                 else
                 {
-                    CloseConnection();
                     return null;
                 }
             }
@@ -75,7 +73,6 @@ namespace BD3Trab4.DAOs
 
                     competidores.Add(new Competidor(id, nome, sexo, dataNascimento, patrocinio));
                 }
-                CloseConnection();
                 return competidores;
             }
             catch (Exception)
@@ -88,7 +85,7 @@ namespace BD3Trab4.DAOs
             }
         }
 
-        public bool InserirCompetidor(string nome, DateTime datanascimento, string sexo, string patrocinio)
+        public bool InserirCompetidor(string nome, DateTime datanascimento, string sexo, string patrocinio, IEnumerable<Prova> provasEscolhidas)
         {
             try
             {
@@ -102,7 +99,25 @@ namespace BD3Trab4.DAOs
                 command.Parameters.Add("@patrocinio", OdbcType.VarChar).Value = patrocinio;
 
                 command.ExecuteNonQuery();
-                CloseConnection();
+
+
+                command = CreateCommand(@"select SEQ_COMPETIDOR_ID.currval from DUAL");
+
+                var reader = command.ExecuteReader();
+                reader.Read();
+
+                var id = int.Parse(reader["currval"].ToString());
+
+                foreach (var prova in provasEscolhidas)
+                {
+                    command = CreateCommand(@"insert into prova_competidor (id_competidor, id_prova) values (?,?)");
+
+                    command.Parameters.Add("@id_competidor", OdbcType.Int).Value = id;
+                    command.Parameters.Add("@id_prova", OdbcType.Int).Value = prova.Id;
+                    command.ExecuteNonQuery();
+
+                    command.Parameters.Clear();
+                }
                 return true;
             }
             catch (Exception)
