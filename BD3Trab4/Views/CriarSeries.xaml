@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BD3Trab4.Views"
         mc:Ignorable="d"
-        Title="Criar Serie" Height="134" Width="300">
+        Title="Criar Serie" Height="170" Width="300">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -15,14 +15,18 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
         <Label Grid.Row="0" Grid.Column="0" Margin="4">Nome:</Label>
         <TextBox Grid.Row="0" Grid.Column="1" Margin="4" Text="{Binding Nome,UpdateSourceTrigger=PropertyChanged}"/>
         <Label Grid.Row="1" Grid.Column="0" Margin="4">Data e Hora:</Label>
         <DatePickerTextBox Grid.Row="1" Grid.Column="1" Margin="4" VerticalAlignment="Center" Language="pt-br" Text="{Binding DataHora}"/>
-        
-        <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" HorizontalAlignment="Right">
+
+        <Label Grid.Row="2" Grid.Column="0" Margin="4">Prova:</Label>
+        <ComboBox Grid.Row="2" Grid.Column="1" Margin="4" VerticalAlignment="Center"  ItemsSource="{Binding Provas}" SelectedItem="{Binding ProvaSelecionada}"/>
+
+        <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" HorizontalAlignment="Right">
             <Button Width="80" Height="22" Margin="4" IsDefault="True" Command="{Binding OnOk}">Ok</Button>
             <Button Width="80" Height="22" Margin="4" IsCancel="True">Cancel</Button>
         </StackPanel>

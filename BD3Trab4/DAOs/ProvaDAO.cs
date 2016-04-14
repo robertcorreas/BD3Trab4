@@ -85,5 +85,43 @@ namespace BD3Trab4.DAOs
                 CloseConnection();
             }
         }
+
+        public IList<Prova> GetProvaBySexo(string s)
+        {
+            try
+            {
+                OpenConection();
+                var command = CreateCommand("select * from prova where sexo = ?");
+                command.Parameters.Add("@sexo", OdbcType.Char).Value = s;
+                var reader = command.ExecuteReader();
+
+                var provas = new List<Prova>();
+
+                while (reader.Read())
+                {
+                    int id;
+                    char sexo;
+                    DateTime dataSemifinal, dataFinal;
+
+                    int.TryParse(reader["id_prova"].ToString(), out id);
+                    var distancia = reader["distancia"].ToString();
+                    var modalidade = reader["modalidade"].ToString();
+                    char.TryParse(reader["sexo"].ToString(), out sexo);
+                    DateTime.TryParse(reader["data_semifinal"].ToString(), out dataSemifinal);
+                    DateTime.TryParse(reader["data_final"].ToString(), out dataFinal);
+
+                    provas.Add(new Prova(id, distancia, modalidade, sexo, dataSemifinal, dataFinal));
+                }
+                return provas;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+            finally
+            {
+                CloseConnection();
+            }
+        }
     }
 }

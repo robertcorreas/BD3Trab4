@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+using System.Windows;
 using BD3Trab4.DAOs;
 using BD3Trab4.Dominio;
 using Microsoft.Practices.Prism.Commands;
@@ -13,22 +10,16 @@ namespace BD3Trab4.Views
 {
     public class CadastrarSeriesViewModel : BindableBase
     {
+        private readonly CompetidorDao _competidorDao = new CompetidorDao();
         private IList<Competidor> _competidores;
+        private Competidor _competidorSelecionado;
+        private string _nomeCompetidor;
+        private Prova _prova;
+        private int _raia;
         private Prova _provaSelecionada;
-
-        public IList<Competidor> Competidores
-        {
-            get { return _competidores; }
-            private set { _competidores = value; OnPropertyChanged(() => Competidores); }
-        }
+        private Serie _serieCorrente;
 
         public IList<Prova> Provas { get; private set; }
-
-        public string NomeCompetidor
-        {
-            get { return _nomeCompetidor; }
-            set { _nomeCompetidor = value; OnPropertyChanged(() => NomeCompetidor);}
-        }
 
         public Prova ProvaSelecionada
         {
@@ -36,8 +27,63 @@ namespace BD3Trab4.Views
             set
             {
                 _provaSelecionada = value;
+                var serieDao = new SerieDao();
+                SerieCorrente = serieDao.GetSerieParaCadastramentoDeCompetidores(_provaSelecionada.Id);
+                Prova = SerieCorrente.Prova;
+            }
+        }
 
-                Competidores = _competidorDao.GetCompetidoresByProva(_provaSelecionada.Id);
+
+        public CadastrarSeriesViewModel()
+        {
+            var provaDao = new ProvaDao();
+            Provas = provaDao.GetProvas();
+
+            
+            
+            //Prova = SerieCorrente.Prova;
+
+
+            OnOk = new DelegateCommand(Ok, CanOk);
+            DataHora = DateTime.Now;
+        }
+
+        public Serie SerieCorrente
+        {
+            get { return _serieCorrente; }
+            private set { _serieCorrente = value; OnPropertyChanged(() => SerieCorrente);}
+        }
+
+        public IList<Competidor> Competidores
+        {
+            get { return _competidores; }
+            private set
+            {
+                _competidores = value;
+                OnPropertyChanged(() => Competidores);
+            }
+        }
+
+
+        public string NomeCompetidor
+        {
+            get { return _nomeCompetidor; }
+            set
+            {
+                _nomeCompetidor = value;
+                OnPropertyChanged(() => NomeCompetidor);
+            }
+        }
+
+        public Prova Prova
+        {
+            get { return _prova; }
+            set
+            {
+                _prova = value;
+
+                Competidores = _competidorDao.GetCompetidoresByProva(_prova.Id);
+                OnPropertyChanged(() => Prova);
             }
         }
 
@@ -55,40 +101,38 @@ namespace BD3Trab4.Views
         public int Raia
         {
             get { return _raia; }
-            set { _raia = value; OnOk.RaiseCanExecuteChanged();}
+            set
+            {
+                _raia = value;
+                OnOk.RaiseCanExecuteChanged();
+            }
         }
 
         public DateTime DataHora { get; set; }
 
-        public DelegateCommand OnOk { get; private set; }
-
-
-        private readonly CompetidorDao _competidorDao;
-        private string _nomeCompetidor;
-        private Competidor _competidorSelecionado;
-        private int _raia;
-
-        public CadastrarSeriesViewModel()
-        {
-            var provaDao = new ProvaDao();
-            Provas = provaDao.GetProvas();
-
-            _competidorDao = new CompetidorDao();
-
-            OnOk = new DelegateCommand(Ok, CanOk);
-            DataHora = DateTime.Now;
-        }
+        public DelegateCommand OnOk { get; }
 
         private bool CanOk()
         {
-            if (CompetidorSelecionado != null && (Raia >0 && Raia <= 8)) { return true; }
+            if (CompetidorSelecionado != null && Raia > 0 && Raia <= 8)
+            {
+                return true;
+            }
             return false;
-
         }
 
         private void Ok()
         {
-            int a = 0;
+            var serieDao = new SerieDao();
+            var result = serieDao.CadastrarCompetidor(SerieCorrente.Id, CompetidorSelecionado.Id, Raia);
+            if (result.Item1)
+            {
+                MessageBox.Show("Cadastro realizado com sucesso");
+            }
+            else
+            {
+                MessageBox.Show(result.Item2);
+            }
         }
     }
 }

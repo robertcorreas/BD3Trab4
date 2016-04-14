@@ -7,12 +7,12 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <StackPanel HorizontalAlignment="Center">
-            <Button Click="ButtonBase_OnClick">Cadastrar Competidores</Button>
-            <Button Click="FecharInscriçõesCompetidores_Click" >Finalizar inscrições de competidores</Button>
-            <Button Click="ReabrirInscriçõesCompetidores_Click"  >Reabrir inscrições de competidores</Button>
-            <Button Name="btnCriarSerie" Click="btnCriarSerie_Click" >Criar Series</Button>
-            <Button Name="btnCadastrarSeries" Click="btnCadastrarSeries_Click">Cadastrar Series</Button>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button Margin="4" Click="ButtonBase_OnClick">Cadastrar Competidores</Button>
+            <Button Margin="4" Click="FecharInscriçõesCompetidores_Click">Finalizar inscrições de competidores</Button>
+            <Button Margin="4" Click="ReabrirInscriçõesCompetidores_Click">Reabrir inscrições de competidores</Button>
+            <Button Margin="4" Name="btnCriarSerie" Click="btnCriarSerie_Click">Criar Series</Button>
+            <Button Margin="4" Name="btnCadastrarSeries" Click="btnCadastrarSeries_Click">Cadastrar Series</Button>
         </StackPanel>
     </Grid>
 </Window>

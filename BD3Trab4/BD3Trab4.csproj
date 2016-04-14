@@ -93,6 +93,7 @@
     </ApplicationDefinition>
     <Compile Include="DAOs\SerieDao.cs" />
     <Compile Include="Dominio\InscriçõesDeCompetidores.cs" />
+    <Compile Include="Dominio\Serie.cs" />
     <Compile Include="Events\FecharJanelaEvent.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="Views\CadastrarSeries.xaml.cs">

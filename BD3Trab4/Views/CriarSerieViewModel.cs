@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using BD3Trab4.DAOs;
+using BD3Trab4.Dominio;
 using BD3Trab4.Events;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Mvvm;
@@ -15,26 +13,46 @@ namespace BD3Trab4.Views
     public class CriarSerieViewModel : BindableBase
     {
         private string _nome;
+        private Prova _provaSelecionada;
 
-        public string Nome
-        {
-            get { return _nome; }
-            set { _nome = value; OnOk.RaiseCanExecuteChanged();}
-        }
-
-        public DateTime DataHora { get; set; }
-
-        public DelegateCommand OnOk { get; private set; }
 
         public CriarSerieViewModel()
         {
+            Provas = new ProvaDao().GetProvas();
+
             OnOk = new DelegateCommand(Ok, CanOk);
             DataHora = DateTime.Now;
         }
 
+        public IList<Prova> Provas { get; private set; }
+
+        public Prova ProvaSelecionada
+        {
+            get { return _provaSelecionada; }
+            set
+            {
+                _provaSelecionada = value;
+                OnOk.RaiseCanExecuteChanged();
+            }
+        }
+
+        public string Nome
+        {
+            get { return _nome; }
+            set
+            {
+                _nome = value;
+                OnOk.RaiseCanExecuteChanged();
+            }
+        }
+
+        public DateTime DataHora { get; set; }
+
+        public DelegateCommand OnOk { get; }
+
         private bool CanOk()
         {
-            if (string.IsNullOrEmpty(Nome))
+            if (string.IsNullOrEmpty(Nome) || ProvaSelecionada == null)
                 return false;
             return true;
         }
@@ -42,7 +60,7 @@ namespace BD3Trab4.Views
         private void Ok()
         {
             var dao = new SerieDao();
-            if (dao.InserirSerie(Nome, DataHora))
+            if (dao.InserirSerie(Nome, DataHora, ProvaSelecionada))
             {
                 MessageBox.Show("Serie criada com sucesso");
                 this.Publish(new FecharJanelaEvent());

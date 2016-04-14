@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using BD3Trab4.DAOs;
 using BD3Trab4.Dominio;
@@ -19,17 +16,36 @@ namespace BD3Trab4.Views
         private string _nome;
         private string _patrocinio;
         private string _sexo;
+        private ObservableCollection<Prova> _provasDisponíveis;
+
+
+        public CadastroDeCompetidoresViewModel()
+        {
+            ProvasEscolhidas = new ObservableCollection<Prova>();
+
+            OnOk = new DelegateCommand(Ok, CanOk);
+            OnAdd = new DelegateCommand(Add);
+            OnRemove = new DelegateCommand(Remove);
+        }
 
         public string Nome
         {
             get { return _nome; }
-            set { _nome = value; OnOk.RaiseCanExecuteChanged(); }
+            set
+            {
+                _nome = value;
+                OnOk.RaiseCanExecuteChanged();
+            }
         }
 
         public string Patrocinio
         {
             get { return _patrocinio; }
-            set { _patrocinio = value; OnOk.RaiseCanExecuteChanged(); }
+            set
+            {
+                _patrocinio = value;
+                OnOk.RaiseCanExecuteChanged();
+            }
         }
 
         public DateTime DataNascimento { get; set; }
@@ -37,31 +53,30 @@ namespace BD3Trab4.Views
         public string Sexo
         {
             get { return _sexo; }
-            set { _sexo = value; OnOk.RaiseCanExecuteChanged(); }
+            set
+            {
+                _sexo = value;
+                OnOk.RaiseCanExecuteChanged();
+                ProvasDisponíveis = new ObservableCollection<Prova>(new ProvaDao().GetProvaBySexo(_sexo));
+            }
         }
 
         public DelegateCommand OnOk { get; set; }
         public DelegateCommand OnAdd { get; set; }
         public DelegateCommand OnRemove { get; set; }
 
-        public List<string> Sexos => new List<string>() {"M","F"};
-        public ObservableCollection<Prova> ProvasDisponíveis { get; private set; }
-        public ObservableCollection<Prova> ProvasEscolhidas { get; private set; }
+        public List<string> Sexos => new List<string> {"M", "F"};
+
+        public ObservableCollection<Prova> ProvasDisponíveis
+        {
+            get { return _provasDisponíveis; }
+            private set { _provasDisponíveis = value; OnPropertyChanged(() => ProvasDisponíveis);}
+        }
+
+        public ObservableCollection<Prova> ProvasEscolhidas { get; }
 
         public Prova ProvaDisponivelSelecionada { get; set; }
         public Prova ProvaEscolhidaSelecionada { get; set; }
-
-        public CadastroDeCompetidoresViewModel()
-        {
-            var provaDao = new ProvaDao();
-
-            ProvasDisponíveis = new ObservableCollection<Prova>(provaDao.GetProvas());
-            ProvasEscolhidas = new ObservableCollection<Prova>();
-
-            OnOk = new DelegateCommand(Ok, CanOk);
-            OnAdd = new DelegateCommand(Add);
-            OnRemove = new DelegateCommand(Remove);
-        }
 
         private void Remove()
         {
@@ -86,7 +101,7 @@ namespace BD3Trab4.Views
 
         private void Ok()
         {
-           var dao = new CompetidorDao();
+            var dao = new CompetidorDao();
             if (dao.InserirCompetidor(Nome, DataNascimento, Sexo, Patrocinio, ProvasEscolhidas))
             {
                 MessageBox.Show("Competidor Cadastrado com sucesso");
