@@ -11,6 +11,7 @@
             <Button Click="ButtonBase_OnClick">Cadastrar Competidores</Button>
             <Button Click="FecharInscriçõesCompetidores_Click" >Finalizar inscrições de competidores</Button>
             <Button Click="ReabrirInscriçõesCompetidores_Click"  >Reabrir inscrições de competidores</Button>
+            <Button Name="btnCriarSerie" Click="btnCriarSerie_Click" >Criar Series</Button>
             <Button Name="btnCadastrarSeries" Click="btnCadastrarSeries_Click">Cadastrar Series</Button>
         </StackPanel>
     </Grid>

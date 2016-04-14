@@ -52,5 +52,10 @@ namespace BD3Trab4
         {
             new CadastrarSeries().ShowDialog();
         }
+
+        private void btnCriarSerie_Click(object sender, RoutedEventArgs e)
+        {
+            new CriarSeries().ShowDialog();
+        }
     }
 }
