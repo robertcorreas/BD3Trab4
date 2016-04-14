@@ -10,27 +10,26 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 using BD3Trab4.Events;
-using BD3Trab4.Views;
 using PubSub;
 
-namespace BD3Trab4
+namespace BD3Trab4.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for CadastroDeCompetidores.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class CadastroDeCompetidores : Window
     {
-        public MainWindow()
+        public CadastroDeCompetidores()
         {
             InitializeComponent();
-        }
-
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-        {
-            new CadastroDeCompetidores().ShowDialog();
+            DataContext = new CadastroDeCompetidoresViewModel();
+            this.Subscribe<FecharJanelaEvent>(@event =>
+            {
+                this.Close();
+                this.Unsubscribe<FecharJanelaEvent>();
+            });
         }
     }
 }

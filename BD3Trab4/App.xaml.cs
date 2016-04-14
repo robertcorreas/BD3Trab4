@@ -24,10 +24,7 @@ namespace BD3Trab4
             var p = dao.GetProvaById(6);
             var competidor = new CompetidorDao().GetCompetidorById(1);
 
-            foreach (var prova in provas)
-            {
-                MessageBox.Show(prova.Modalidade);
-            }
+            
         }
     }
 }

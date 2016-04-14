@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Odbc;
+using System.Windows.Input;
 using BD3Trab4.Dominio;
 
 namespace BD3Trab4.DAOs
@@ -80,6 +81,33 @@ namespace BD3Trab4.DAOs
             catch (Exception)
             {
                 return null;
+            }
+            finally
+            {
+                CloseConnection();
+            }
+        }
+
+        public bool InserirCompetidor(string nome, DateTime datanascimento, string sexo, string patrocinio)
+        {
+            try
+            {
+                OpenConection();
+                var command = CreateCommand(@"insert into competidor (nome,sexo,data_nascimento,patrocinio) 
+                                             values (?,?,?,?)");
+
+                command.Parameters.Add("@nome", OdbcType.VarChar).Value = nome;
+                command.Parameters.Add("@sexo", OdbcType.Char).Value = sexo;
+                command.Parameters.Add("@data_nascimento", OdbcType.Date).Value = datanascimento;
+                command.Parameters.Add("@patrocinio", OdbcType.VarChar).Value = patrocinio;
+
+                command.ExecuteNonQuery();
+                CloseConnection();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
             finally
             {
