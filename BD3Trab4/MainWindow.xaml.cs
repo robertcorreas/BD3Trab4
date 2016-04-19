@@ -35,18 +35,6 @@ namespace BD3Trab4
             new CadastroDeCompetidores().ShowDialog();
         }
 
-        private void FecharInscriçõesCompetidores_Click(object sender, RoutedEventArgs e)
-        {
-            InscriçõesDeCompetidores.Instance.InscriçõesFechadas = true;
-            btnCadastrarSeries.IsEnabled = true;
-        }
-
-        private void ReabrirInscriçõesCompetidores_Click(object sender, RoutedEventArgs e)
-        {
-            InscriçõesDeCompetidores.Instance.InscriçõesFechadas = false;
-            btnCadastrarSeries.IsEnabled = false;
-        }
-
         private void btnCadastrarSeries_Click(object sender, RoutedEventArgs e)
         {
             new CadastrarSeries().ShowDialog();
@@ -60,6 +48,11 @@ namespace BD3Trab4
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             new ConfigurarConnectionString().ShowDialog();
+        }
+
+        private void BtnTerminarSeries_OnClick(object sender, RoutedEventArgs e)
+        {
+            new TerminarSeries().ShowDialog();
         }
     }
 }

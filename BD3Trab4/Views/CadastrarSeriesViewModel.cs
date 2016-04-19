@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Windows;
 using BD3Trab4.DAOs;
 using BD3Trab4.Dominio;
@@ -43,7 +44,12 @@ namespace BD3Trab4.Views
                 _provaSelecionada = value;
                 var serieDao = new SerieDao();
                 SerieCorrente = serieDao.GetSerieParaCadastramentoDeCompetidores(_provaSelecionada.Id);
-                Prova = SerieCorrente.Prova;
+                if (SerieCorrente != null)
+                    Prova = SerieCorrente.Prova;
+                else
+                {
+                    Prova = null;
+                }
             }
         }
 
@@ -85,7 +91,17 @@ namespace BD3Trab4.Views
             {
                 _prova = value;
 
-                Competidores = _competidorDao.GetCompetidoresByProva(_prova.Id);
+                if (_prova != null)
+                {
+                    Competidores = _competidorDao.GetCompetidoresByProva(_prova.Id);
+                }
+                else
+                {
+                    Competidores = new List<Competidor>();
+                }
+
+
+                
                 OnPropertyChanged(() => Prova);
             }
         }
@@ -97,6 +113,9 @@ namespace BD3Trab4.Views
             {
                 _competidorSelecionado = value;
                 OnOk.RaiseCanExecuteChanged();
+
+                if (_competidorSelecionado == null) return;
+
                 NomeCompetidor = _competidorSelecionado.Nome;
             }
         }

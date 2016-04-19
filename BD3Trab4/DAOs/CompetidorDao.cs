@@ -145,6 +145,37 @@ namespace BD3Trab4.DAOs
             }
         }
 
+        public IList<Competidor> GetCompetidoresBySerie(int serieId)
+        {
+            try
+            {
+                OpenConection();
+                var command = CreateCommand(@"select * from competidor, serie_competidor
+                                              where serie_competidor.id_competidor = competidor.id_competidor 
+                                              and serie_competidor.id_serie = ?;");
+
+                command.Parameters.Add("@id_serie", OdbcType.Int).Value = serieId;
+
+                var reader = command.ExecuteReader();
+                var competidores = new List<Competidor>();
+                while (reader.Read())
+                {
+                    var competidor = ConstruirCompetidor(reader);
+                    competidores.Add(competidor);
+                }
+
+                return competidores;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+            finally
+            {
+                CloseConnection();
+            }
+        }
+
 
         private Competidor ConstruirCompetidor(OdbcDataReader reader)
         {

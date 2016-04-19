@@ -112,6 +112,10 @@
       <DependentUpon>CriarSeries.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CriarSerieViewModel.cs" />
+    <Compile Include="Views\TerminarSeries.xaml.cs">
+      <DependentUpon>TerminarSeries.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TerminarSeriesViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -142,6 +146,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CriarSeries.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TerminarSeries.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

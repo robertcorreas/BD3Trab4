@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Odbc;
 using BD3Trab4.Dominio;
 
@@ -6,6 +7,48 @@ namespace BD3Trab4.DAOs
 {
     public class SerieDao : Dao
     {
+
+        public Serie GetSerieMaisCedo()
+        {
+            try
+            {
+                OpenConection();
+                var command = CreateCommand(@"select * from serie
+                                              where serie.fechada = 0
+                                              and serie.total_participantes >=1
+                                              order by serie.data_hora");
+
+                var reader = command.ExecuteReader();
+
+
+                if (reader.Read())
+                {
+                    DateTime dataHora;
+                    int totalParticipantes, totalEfetivos, id, idProva;
+                    var nome = reader["nome"].ToString();
+                    DateTime.TryParse(reader["data_hora"].ToString(), out dataHora);
+                    int.TryParse(reader["id_serie"].ToString(), out id);
+                    int.TryParse(reader["total_participantes"].ToString(), out totalParticipantes);
+                    int.TryParse(reader["total_efetivos"].ToString(), out totalEfetivos);
+                    int.TryParse(reader["fk_id_prova"].ToString(), out idProva);
+
+                    var prova = new ProvaDao().GetProvaById(idProva);
+                    return new Serie(id, nome, dataHora, totalParticipantes, totalParticipantes, prova);
+                }
+                return null;
+
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+            finally
+            {
+                CloseConnection();
+            }
+        }
+
+
         public bool InserirSerie(string nome, DateTime dataHora, Prova prova)
         {
             try
@@ -21,7 +64,7 @@ namespace BD3Trab4.DAOs
 
                 return true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return false;
             }
@@ -134,6 +177,55 @@ namespace BD3Trab4.DAOs
             catch (Exception e)
             {
                 return new Tuple<bool, string>(false, e.Message);
+            }
+            finally
+            {
+                CloseConnection();
+            }
+        }
+
+        public bool RegistrarTempo(int idSerie, int idCompetidor, double tempoDeProva)
+        {
+            try
+            {
+                OpenConection();
+
+                var command = CreateCommand(@"update serie_competidor set tempo = ? where id_serie = ? and id_competidor = ?");
+
+                command.Parameters.Add("@tempo", OdbcType.Numeric).Value = tempoDeProva;
+                command.Parameters.Add("@id_serie", OdbcType.Int).Value = idSerie;
+                command.Parameters.Add("@id_competidor", OdbcType.Int).Value = idCompetidor;
+
+                command.ExecuteNonQuery();
+
+                return true;
+
+
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            finally
+            {
+                CloseConnection();
+            }
+        }
+
+        public void FecharSerie(int idSerie)
+        {
+            try
+            {
+                OpenConection();
+
+                var command = CreateCommand(@"update serie set fechada = 1 where id_serie = ?");
+                command.Parameters.Add("@id_serie", OdbcType.Int).Value = idSerie;
+                command.ExecuteNonQuery();
+                return;
+            }
+            catch (Exception)
+            {
+                return ;
             }
             finally
             {
