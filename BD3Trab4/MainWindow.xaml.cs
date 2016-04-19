@@ -27,7 +27,6 @@ namespace BD3Trab4
         public MainWindow()
         {
             InitializeComponent();
-            btnCadastrarSeries.IsEnabled = false;
         }
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)

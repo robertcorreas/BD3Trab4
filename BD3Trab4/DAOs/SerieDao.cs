@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Odbc;
+using System.Windows.Media.Effects;
 using BD3Trab4.Dominio;
 
 namespace BD3Trab4.DAOs
@@ -54,6 +55,7 @@ namespace BD3Trab4.DAOs
             try
             {
                 OpenConection();
+                BeginTransaction();
                 var command = CreateCommand(@"insert into serie (nome,data_hora,fk_id_prova) values (?,?,?)");
 
                 command.Parameters.Add("@nome", OdbcType.VarChar).Value = nome;
@@ -61,11 +63,12 @@ namespace BD3Trab4.DAOs
                 command.Parameters.Add("@fk_id_prova", OdbcType.Int).Value = prova.Id;
 
                 command.ExecuteNonQuery();
-
+                Commit();
                 return true;
             }
             catch (Exception e)
             {
+                Rollback();
                 return false;
             }
             finally
@@ -148,6 +151,7 @@ namespace BD3Trab4.DAOs
             try
             {
                 OpenConection();
+               
                 var command = CreateCommand(@"select count(raia) from serie_competidor where id_serie = ? and raia = ?");
 
                 command.Parameters.Add("@id_serie", OdbcType.Int).Value = idSerie;
@@ -165,17 +169,19 @@ namespace BD3Trab4.DAOs
                     }
                 }
 
-
+                BeginTransaction();
                 command = CreateCommand(@"insert into serie_competidor (id_serie,id_competidor, raia) values(?,?,?);");
                 command.Parameters.Add("@id_serie", OdbcType.Int).Value = idSerie;
                 command.Parameters.Add("@id_competidor", OdbcType.Int).Value = idCompetidor;
                 command.Parameters.Add("@raia", OdbcType.Int).Value = raia;
                 command.ExecuteNonQuery();
 
+                Commit();
                 return new Tuple<bool, string>(true, "");
             }
             catch (Exception e)
             {
+                Rollback();
                 return new Tuple<bool, string>(false, e.Message);
             }
             finally
@@ -189,7 +195,7 @@ namespace BD3Trab4.DAOs
             try
             {
                 OpenConection();
-
+                BeginTransaction();
                 var command = CreateCommand(@"update serie_competidor set tempo = ? where id_serie = ? and id_competidor = ?");
 
                 command.Parameters.Add("@tempo", OdbcType.Numeric).Value = tempoDeProva;
@@ -197,13 +203,14 @@ namespace BD3Trab4.DAOs
                 command.Parameters.Add("@id_competidor", OdbcType.Int).Value = idCompetidor;
 
                 command.ExecuteNonQuery();
-
+                Commit();
                 return true;
 
 
             }
             catch (Exception e)
             {
+                Rollback();
                 return false;
             }
             finally
@@ -217,14 +224,17 @@ namespace BD3Trab4.DAOs
             try
             {
                 OpenConection();
-
+                BeginTransaction();
                 var command = CreateCommand(@"update serie set fechada = 1 where id_serie = ?");
                 command.Parameters.Add("@id_serie", OdbcType.Int).Value = idSerie;
                 command.ExecuteNonQuery();
+
+                Commit();
                 return;
             }
             catch (Exception)
             {
+                Rollback();
                 return ;
             }
             finally
